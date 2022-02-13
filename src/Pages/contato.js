@@ -13,13 +13,14 @@ const Contatos = () => {
 
     useEffect(async () => {
         const response = await fetch(url)
+        console.log(response)
         const data = await response.json();
         setMessage(data);
     }, [render])
 
     const sendMessage = () => {
         setValidator(false);
-        if(author.length <= 0 || content.length <= 0){
+        if (author.length <= 0 || content.length <= 0) {
             return setValidator(!validator)
         }
         const bodyForm = {
@@ -34,38 +35,38 @@ const Contatos = () => {
             },
             body: JSON.stringify(bodyForm)
         })
-        .then((response) => response.json())
-        .then((data) => {
-            if(data.id) {
-                setRender(true);
-                setSuccess(true);
-                setTimeout(() => {
-                    setSuccess(false);
-                }, 5000)
-            }
-        })
-        
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.id) {
+                    setRender(true);
+                    setSuccess(true);
+                    setTimeout(() => {
+                        setSuccess(false);
+                    }, 5000)
+                }
+            })
+
         setAuthor('');
         setContent('');
-        
-        console.log(content)
-    }  
 
-    return(
+        console.log(content)
+    }
+
+    return (
         <>
             <Grid container direction="row" xs={12}>
-                <TextField id="name" label="Name" value={author} onChange={(event)=>{setAuthor(event.target.value)}} fullWidth/>
-                <TextField id="message" label="Message" value={content} onChange={(event)=>{setContent(event.target.value)}} fullWidth/>
+                <TextField id="name" label="Name" value={author} onChange={(event) => { setAuthor(event.target.value) }} fullWidth />
+                <TextField id="message" label="Message" value={content} onChange={(event) => { setContent(event.target.value) }} fullWidth />
             </Grid>
 
-            {validator && 
+            {validator &&
                 <div className="alert alert-warning alert-dismissible fade show mt-2" role="alert">
                     <strong>Por favor preencha todos os campos!</strong>
                     <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 
-            {success && 
+            {success &&
                 <div className="alert alert-success alert-dismissible fade show mt-2" role="alert">
                     <strong>Mensagem foi enviada</strong>
                 </div>
@@ -76,7 +77,7 @@ const Contatos = () => {
             </Button>
 
             {message.map((content) => {
-                return(
+                return (
                     <div className="card mt-2" key={content.id}>
                         <div className="card-body">
                             <h5 className="card-title">{content.email}</h5>
@@ -85,7 +86,7 @@ const Contatos = () => {
                         </div>
                     </div>
                 )
-            } )}
+            })}
         </>
     )
 }
